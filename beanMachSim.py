@@ -14,25 +14,32 @@ class beanMachSim():
     def moveRight(self):
         p = r.random()
         if p > 0.5 and p < 1:
-            #print "yo"
+            #print p
             return True
         elif p > 0 and p <= 0.5:
-            #print "hi"
+            #print p
             return False
 
     def dropBall(self):
         self.ballPos = 4 #reset ball pos to middle b/w 0 and 9
         for i in range(self.numRows):
-            if self.moveRight() is True:
+            right = self.moveRight()
+            if right is True:
                 if self.ballPos == 9:
+                    print "ball @ 9"
                     pass
                 elif self.ballPos < 9:
+                    print "move right"
                     self.ballPos += 1
-            elif self.moveRight() is False:
+            if right is False:
                 if self.ballPos == 0:
+                    print "ball @ 0"
                     pass
                 elif self.ballPos > 0:
+                    print "move left"
                     self.ballPos -= 1
+            print self.ballPos
+
         return self.ballPos
 
     def dropAllBalls(self):
