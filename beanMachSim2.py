@@ -55,11 +55,18 @@ class beanMachSim():
             self.numBalls -= 1
     def update_hist(self):
         plt.cla() #clear axis
-        plt.hist(self.binContents[0])
+        for i in self.binContents:
+            self.binContents[i] +=1
+        plt.hist(self.binContents)
 
 
 
 def main():
+    import random as r
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import matplotlib.animation as animation
+
     q = beanMachSim(1000)
     q.dropAllBalls()
     print q.binContents
@@ -72,9 +79,19 @@ def main():
     number_of_frames = 10
 
     fig = plt.figure()
-    hist = plt.hist(q.binContents[0])
+    ax1=fig.add_subplot(1,1,1)
+    #hist = plt.hist(q.binContents[0])
 
-    import matplotlib.animation as animation
-    animation = animation.FuncAnimation(fig, q.update_hist, numFrames, fargs=(q.binContents,))
+    def animate(i):
+        a=beanMachSim(100)
+        x=[]
+        for i in range(a.numBins):
+            x.append(i)
+        while a.numBalls > 0:
+            a.binContents[a.dropBall()] += 1
+            a.numBalls -= 1
+            ax1.plot(x,a.binContents)
+
+    ani = animation.FuncAnimation(fig, animate, interval = 1000)
     plt.show()
 if __name__ == "__main__": main()
