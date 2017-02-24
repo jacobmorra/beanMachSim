@@ -57,7 +57,7 @@ class beanMachSim():
 
 
 def main():
-    q = beanMachSim(10000)
+    q = beanMachSim(1000)
     q.dropAllBalls()
     print q.binContents
 
