@@ -53,6 +53,9 @@ class beanMachSim():
         while self.numBalls > 0:
             self.binContents[self.dropBall()] += 1
             self.numBalls -= 1
+    def update_hist(self):
+        plt.cla() #clear axis
+        plt.hist(self.binContents[0])
 
 
 
@@ -61,10 +64,17 @@ def main():
     q.dropAllBalls()
     print q.binContents
 
+    numFrames = 10
 
-    import matplotlib.pyplot as plt
-    plt.bar(range(0, q.numBins), q.binContents)
+    #plt.bar(range(0, q.numBins), q.binContents)
+    #plt.show()
+
+    number_of_frames = 10
+
+    fig = plt.figure()
+    hist = plt.hist(q.binContents[0])
+
+    import matplotlib.animation as animation
+    animation = animation.FuncAnimation(fig, q.update_hist, numFrames, fargs=(q.binContents,))
     plt.show()
-
-
 if __name__ == "__main__": main()
