@@ -4,7 +4,7 @@ class Node:
         self.r = None
         self.v = val
 
-class Tree:
+class binTree:
     def __init__(self):
         self.root = None
 
