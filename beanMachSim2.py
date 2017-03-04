@@ -21,6 +21,7 @@ class beanMachSim():
         if p > 0.5 and p < 1:
             #print p
             return True
+
         elif p > 0 and p <= 0.5:
             #print p
             return False
@@ -56,7 +57,7 @@ class beanMachSim():
     def update_hist(self):
         plt.cla() #clear axis
         for i in self.binContents:
-            self.binContents[i] +=1
+           self.binContents[i] +=1
         plt.hist(self.binContents)
 
 
@@ -88,10 +89,13 @@ def main():
         for i in range(a.numBins):
             x.append(i)
         while a.numBalls > 0:
+            print a.binContents
             a.binContents[a.dropBall()] += 1
             a.numBalls -= 1
-            ax1.plot(x,a.binContents)
+            print a.binContents
+        #plt.hist(a.binContents)
+        ax1.plot(x,a.binContents)
 
-    ani = animation.FuncAnimation(fig, animate, interval = 1000)
+    ani = animation.FuncAnimation(fig, animate, interval = 100)
     plt.show()
 if __name__ == "__main__": main()
