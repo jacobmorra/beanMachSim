@@ -6,6 +6,7 @@ class Node:
     def __init__(self, val):
         self.l = None
         self.r = None
+        self.p = None
         self.v = val
 
     # Return height of tree rooted at this node.
@@ -26,9 +27,35 @@ class Tree:
 
 
     #print total tree depth from root
+    def printPretty(self, node):
+        if node.depth() == self.tdepth():
+            print "---" * (self.tdepth() - node.depth()) + "(" + str(node.v) + ")"
+        else:
+            print "---" * (self.tdepth() - node.depth()) + "(" + str(node.v) + ")"
+
+
     def tdepth(self):
         if self.root is not None:
             return self.root.depth()
+
+    def hasLeft(self, node):
+        if node.l is not None:
+            return True
+
+    def hasRight(self, node):
+        if node.r is not None:
+            return True
+
+    def getLeft(self, node):
+        if self.hasLeft(node):
+            return node.l
+
+    def getRight(self, node):
+        if self.hasLeft(node):
+            return node.l
+
+    def space(self, node):
+        return "     "
 
     def add(self, val):
         if self.root is None:
@@ -37,18 +64,41 @@ class Tree:
             self._add(val, self.root)
 
     def _add(self, val, node):
-        if val < node.v:
+        if val == 2 * node.v:
             # go left
+            node.l = Node(val)
+            #if node.l is not None:
+            #    self._add(val, node.l)
+            #else:
+            #    node.l = Node(val)
+        if val == 2 * node.v + 1:
+            # go right
+            node.r = Node(val)
+            #if node.r is not None:
+            #    self._add(val, node.r)
+            #else:
+            #    node.r = Node(val)
+        else:
             if node.l is not None:
                 self._add(val, node.l)
-            else:
-                node.l = Node(val)
-        else:
-            # go right
             if node.r is not None:
                 self._add(val, node.r)
-            else:
-                node.r = Node(val)
+    """
+    #add by rank
+    def _add(self, val, node):
+    if val < node.v:
+        # go left
+        if node.l is not None:
+            self._add(val, node.l)
+        else:
+            node.l = Node(val)
+    else:
+        # go right
+        if node.r is not None:
+            self._add(val, node.r)
+        else:
+            node.r = Node(val)
+    """
 
     def find(self, val):
         if self.root is not None:
@@ -69,22 +119,23 @@ class Tree:
             self._printTree(self.root)
 
     def _printTree(self, node):
-        if node is not None:
-            i = 0
-            while i < self.tdepth:
-                if node.depth() == self.tdepth():
-                    print str(node.v) + ' ' + str(node.depth())
-                elif node.depth() == self.tdepth() - 1:
-                    print str(node.v) + ' ' + str(node.depth())
-                elif node.depth() == self.tdepth() - 2:
-                    print str(node.v) + ' ' + str(node.depth())
-                elif node.depth() == self.tdepth() - 3:
-                    print str(node.v) + ' ' + str(node.depth())
-            print str(node.v) + ' ' + str(node.depth())
+        if(node != None):
             self._printTree(node.l)
+            #print str(node.v) + ' ' + str(node.depth())
+            self.printPretty(node)
             self._printTree(node.r)
 
+    """def _printTree(self, node):
+        if node is not None:
+            i = 0
+            if node.depth() == self.tdepth():
+                print str(node.v) + ' ' + str(node.depth())
 
+                while i < self.tdepth():
+                    if self.hasLeft(node) and self.hasRight(node):
+                        print str(self.getLeft(node)) + ' ' + str(self.getLeft(node).depth()) + " " + str(self.getRight(node)) + ' ' + str(self.getRight(node).depth())
+                        i += 1
+    """
 '''
 class beanMachSim():
     def __init__(self, numBalls, numRows):
@@ -182,14 +233,25 @@ if __name__ == "__main__": main()
 #     3
 # 0     4
 #   2      8
+numRows = 4
+#generate appropriate number of elements for proper bin tree
+def numElem(r):
+    if r == 0:
+        return 0
+    else:
+        return 2**(r-1) + numElem(r-1)
 tree = Tree()
-tree.add(0)
-tree.add(-1)
-tree.add(-2)
-tree.add(1)
-tree.add(2)
+
+total_num_elements = numElem(numRows)
+
+#print total_num_elements
+
+for i in range(1,total_num_elements+1):
+    tree.add(i)
+
 tree.printTree()
-print tree.tdepth()
+
+print "Total depth: ", tree.tdepth()
 
 #print (tree.find(3)).v
 #print tree.find(10)
